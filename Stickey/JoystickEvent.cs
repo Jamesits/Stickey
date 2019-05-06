@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stickey
 {
@@ -23,6 +19,19 @@ namespace Stickey
         public bool Down;
         public bool Left;
         public bool Right;
+
+        public bool A;
+        public bool B;
+        public bool X;
+        public bool Y;
+
+        public bool View;
+        public bool Menu;
+
+        public bool L3;
+        public bool R3;
+        public bool LB;
+        public bool RB;
 
         public string Source
         {

@@ -105,7 +105,7 @@ namespace Stickey
                         Win32.GetRawInputDeviceInfo(rid.hDevice, RawInputDeviceInfo.RIDI_DEVICENAME, pData, ref pcbSize);
                         var deviceName = Marshal.PtrToStringAnsi(pData);
 
-                        // Console.WriteLine(rid.dwType);
+                        // Debug.WriteLine(rid.dwType);
 
                         if (rid.dwType == DeviceType.RimTypeHid)
                         {
@@ -143,9 +143,9 @@ namespace Stickey
 
         public void ProcessRawInput(IntPtr hdevice)
         {
-            // Console.WriteLine(_rawBuffer.data.keyboard.ToString());
-            // Console.WriteLine(_rawBuffer.data.hid.ToString());
-            // Console.WriteLine(_rawBuffer.header.ToString());
+            // Debug.WriteLine(_rawBuffer.data.keyboard.ToString());
+            // Debug.WriteLine(_rawBuffer.data.hid.ToString());
+            // Debug.WriteLine(_rawBuffer.header.ToString());
 
             if (_deviceList.Count == 0) return;
 
@@ -181,7 +181,7 @@ namespace Stickey
                     sb.AppendFormat("{0,3:X}", managedArray[i]);
                 }
 
-                Console.WriteLine(sb);
+                Debug.WriteLine(sb);
 
                 JoystickEvent e = new JoystickEvent()
                 {
@@ -221,6 +221,51 @@ namespace Stickey
                         e.Up = true;
                         e.Right = true;
                         break;
+                }
+
+                // L3 & R3
+                if ((e.DirectionButtons & 0x01) != 0)
+                {
+                    e.L3 = true;
+                }
+
+                if ((e.DirectionButtons & 0x02) != 0)
+                {
+                    e.R3 = true;
+                }
+
+                // normal buttons
+                if ((e.MainButtons & (byte)XInputJoystickButtons.A) != 0)
+                {
+                    e.A = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.B) != 0)
+                {
+                    e.B = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.X) != 0)
+                {
+                    e.X = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.Y) != 0)
+                {
+                    e.Y = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.LB) != 0)
+                {
+                    e.LB = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.RB) != 0)
+                {
+                    e.RB = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.View) != 0)
+                {
+                    e.View = true;
+                }
+                if ((e.MainButtons & (byte)XInputJoystickButtons.Menu) != 0)
+                {
+                    e.Menu = true;
                 }
 
                 JoystickPressed?.Invoke(this, new RawInputEventArg(e));

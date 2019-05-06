@@ -22,20 +22,18 @@ namespace Stickey
         public MainWindow()
         {
             InitializeComponent();
-
-            
         }
 
         ~MainWindow()
         {
-            DeepDarkWin32Fantasy.ResetHook();
+            // DeepDarkWin32Fantasy.ResetHook();
         }
 
         private void OnKeyPressed(object sender, RawInputEventArg e)
         {
             Debug.WriteLine($"{e.JoystickEvent.DirectionButtons}");
 
-
+            // WASD
             if (e.JoystickEvent.Up)
             {
                 sim.Keyboard.KeyDown(VirtualKeyCode.VK_W);
@@ -70,6 +68,69 @@ namespace Stickey
             else
             {
                 sim.Keyboard.KeyUp(VirtualKeyCode.VK_D);
+            }
+
+            if (e.JoystickEvent.A)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.DOWN);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.DOWN);
+            }
+
+            if (e.JoystickEvent.B)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.RIGHT);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.RIGHT);
+            }
+
+            if (e.JoystickEvent.X)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.LEFT);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.LEFT);
+            }
+
+            if (e.JoystickEvent.Y)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.UP);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.UP);
+            }
+
+            if (e.JoystickEvent.LB)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.VK_E);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.VK_E);
+            }
+
+            if (e.JoystickEvent.RB)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.SPACE);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.SPACE);
+            }
+
+            if (e.JoystickEvent.View)
+            {
+                sim.Keyboard.KeyDown(VirtualKeyCode.VK_Q);
+            }
+            else
+            {
+                sim.Keyboard.KeyUp(VirtualKeyCode.VK_Q);
             }
         }
 
