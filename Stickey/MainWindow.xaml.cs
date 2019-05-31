@@ -5,13 +5,14 @@ using MessageBox = System.Windows.MessageBox;
 using System.Windows.Interop;
 using WindowsInput;
 using WindowsInput.Native;
+using MahApps.Metro.Controls;
 
 namespace Stickey
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
 
         private RawInput _rawinput;
