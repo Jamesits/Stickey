@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,6 @@ using Microsoft.DirectX.DirectInput;
 using System.Windows.Forms;
 
 // not in use, commented out to prevent build error on Azure hosted CI
-/*
 namespace Stickey
 {
     /// <summary>
