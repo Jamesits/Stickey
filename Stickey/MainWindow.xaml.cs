@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using MessageBox = System.Windows.MessageBox;
 using System.Windows.Interop;
 using WindowsInput;
 using WindowsInput.Native;
 using MahApps.Metro.Controls;
+using Microsoft.ApplicationInsights;
+using NLog;
 
 namespace Stickey
 {
@@ -17,11 +20,12 @@ namespace Stickey
 
         private RawInput _rawinput;
         private readonly InputSimulator _sim = new InputSimulator();
-
+        private readonly TelemetryClient client = new TelemetryClient();
 
         const bool CaptureOnlyInForeground = false;
         public MainWindow()
         {
+            AppDomain.CurrentDomain.UnhandledException += GenericLogging.CurrentDomain_UnhandledException;
             InitializeComponent();
         }
 
@@ -135,19 +139,6 @@ namespace Stickey
             }
         }
 
-        private static void CurrentDomain_UnhandledException(Object sender, UnhandledExceptionEventArgs e)
-        {
-            var ex = e.ExceptionObject as Exception;
-
-            if (null == ex) return;
-
-            // Log this error. Logging the exception doesn't correct the problem but at least now
-            // you may have more insight as to why the exception is being thrown.
-            Debug.WriteLine("Unhandled Exception: " + ex.Message);
-            Debug.WriteLine("Unhandled Exception: " + ex);
-            MessageBox.Show(ex.Message);
-        }
-
         private void CbGlobalSwitch_Checked(object sender, RoutedEventArgs e)
         {
             // DeepDarkWin32Fantasy.SetHook(DeepDarkWin32Fantasy.InputHookCallback);
@@ -164,6 +155,11 @@ namespace Stickey
         {
             _rawinput.JoystickEvent -= OnKeyPressed;
             _rawinput = null;
+        }
+
+        private void MetroWindow_Closed(object sender, EventArgs e)
+        {
+            client.Flush();
         }
     }
 }
