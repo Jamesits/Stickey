@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.DirectX.DirectInput;
 using System.Windows.Forms;
 
+// not in use, commented out to prevent build error on Azure hosted CI
+/*
 namespace Stickey
 {
     /// <summary>
@@ -141,3 +143,4 @@ namespace Stickey
         }
     }
 }
+*/
