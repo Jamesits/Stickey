@@ -15,7 +15,7 @@ namespace Stickey
     {
 
         private RawInput _rawinput;
-        InputSimulator sim = new InputSimulator();
+        private readonly InputSimulator _sim = new InputSimulator();
 
 
         const bool CaptureOnlyInForeground = false;
@@ -36,101 +36,101 @@ namespace Stickey
             // WASD
             if (e.JoystickEvent.Up)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_W);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_W);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_W);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_W);
             }
 
             if (e.JoystickEvent.Down)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_S);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_S);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_S);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_S);
             }
 
             if (e.JoystickEvent.Left)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_A);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_A);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_A);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_A);
             }
 
             if (e.JoystickEvent.Right)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_D);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_D);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_D);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_D);
             }
 
             if (e.JoystickEvent.A)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.DOWN);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.DOWN);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.DOWN);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.DOWN);
             }
 
             if (e.JoystickEvent.B)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.RIGHT);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.RIGHT);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.RIGHT);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.RIGHT);
             }
 
             if (e.JoystickEvent.X)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.LEFT);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.LEFT);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.LEFT);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.LEFT);
             }
 
             if (e.JoystickEvent.Y)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.UP);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.UP);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.UP);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.UP);
             }
 
             if (e.JoystickEvent.LB)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_E);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_E);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_E);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_E);
             }
 
             if (e.JoystickEvent.RB)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.SPACE);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.SPACE);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.SPACE);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.SPACE);
             }
 
             if (e.JoystickEvent.View)
             {
-                sim.Keyboard.KeyDown(VirtualKeyCode.VK_Q);
+                _sim.Keyboard.KeyDown(VirtualKeyCode.VK_Q);
             }
             else
             {
-                sim.Keyboard.KeyUp(VirtualKeyCode.VK_Q);
+                _sim.Keyboard.KeyUp(VirtualKeyCode.VK_Q);
             }
         }
 
@@ -147,24 +147,8 @@ namespace Stickey
             MessageBox.Show(ex.Message);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void CbGlobalSwitch_Checked(object sender, RoutedEventArgs e)
         {
-            
-        }
-
-        private void Window_SourceInitialized(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _rawinput.JoystickEvent -= OnKeyPressed;
-        }
-
-        private void BtnStart_Click(object sender, RoutedEventArgs e)
-        {
-            BtnStart.IsEnabled = false;
             // DeepDarkWin32Fantasy.SetHook(DeepDarkWin32Fantasy.InputHookCallback);
             var windowHandle = new WindowInteropHelper(this).EnsureHandle();
             _rawinput = new RawInput(windowHandle, CaptureOnlyInForeground);
@@ -173,6 +157,12 @@ namespace Stickey
             Win32.DeviceAudit();            // Writes a file DeviceAudit.txt to the current directory
 
             _rawinput.JoystickEvent += OnKeyPressed;
+        }
+
+        private void CbGlobalSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _rawinput.JoystickEvent -= OnKeyPressed;
+            _rawinput = null;
         }
     }
 }
